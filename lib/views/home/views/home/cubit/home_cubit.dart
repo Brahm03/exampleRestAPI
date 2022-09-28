@@ -12,6 +12,23 @@ class HomeCubit extends Cubit<HomeStates> {
 
   List<dynamic> globalData = [];
 
+  Future delateData(String id, context) async {
+    try {
+      Response res = await Dio().delete(
+        '${ApiBase.instance.products}/$id',
+      );
+      if (res.statusCode == 200) {
+        getData();
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+          content: Text('data has been delated'),
+          backgroundColor: CupertinoColors.systemRed,
+        ));
+      }
+    } catch (e) {
+      debugPrint(e.toString());
+    }
+  }
+
   Future addData(
       {required BuildContext context,
       required String name,

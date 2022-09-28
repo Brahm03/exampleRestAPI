@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:materialyou/views/home/views/home/cubit/home_cubit.dart';
 import 'package:materialyou/views/home/views/home/state/home_state.dart';
 
@@ -46,14 +47,27 @@ class HomeView extends StatelessWidget {
                       child: ListView.builder(
                           itemCount: state.data.length,
                           itemBuilder: (_, index) {
-                            return Card(
-                              color: CupertinoColors.systemGreen,
-                              child: ListTile(
-                                leading: CircleAvatar(
-                                  backgroundColor: Colors.white,
-                                  child: Text(state.data[index]['id'].toString()),
+                            return Slidable(
+                              endActionPane: ActionPane(
+                                  motion: const ScrollMotion(),
+                                  children: [
+                                    SlidableAction(
+                                      onPressed: (v) => context.read<HomeCubit>().delateData(state.data[index]['id'].toString(), context),
+                                      icon: Icons.delete,
+                                      backgroundColor: Colors.red,
+                                    )
+                                  ]),
+                              child: Card(
+                                color: CupertinoColors.systemGreen,
+                                child: ListTile(
+                                  leading: CircleAvatar(
+                                    backgroundColor: Colors.white,
+                                    child: Text(
+                                        state.data[index]['id'].toString()),
+                                  ),
+                                  title: Text(
+                                      state.data[index]['attributes']['name']),
                                 ),
-                                title: Text(state.data[index]['attributes']['name']),
                               ),
                             );
                           })),
