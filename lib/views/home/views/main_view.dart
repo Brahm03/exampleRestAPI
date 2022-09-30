@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:materialyou/views/home/cubit/mainCubit.dart';
 import 'package:materialyou/views/home/state/mainState.dart';
 import 'package:materialyou/views/home/views/home/view/HomeView.dart';
-
+import 'package:materialyou/views/home/views/settings/view/settingsview.dart';
 
 class MainHome extends StatefulWidget {
   const MainHome({Key? key}) : super(key: key);
@@ -20,14 +20,12 @@ class _MainHomeState extends State<MainHome> {
       body: BlocBuilder<MainCubit, MainState>(builder: (contextcubit, state) {
         if (state is EcoState) {
           return const Center(
-            child:  Text('ECO page'),
+            child: Text('ECO page'),
           );
         } else if (state is HomeState) {
           return const HomeView();
         } else if (state is SettingsState) {
-          return const Center(
-            child: Text('SETTINGS page'),
-          );
+          return const SettingsView();
         } else {
           return const Center(
             child: Text('PROFILE page'),

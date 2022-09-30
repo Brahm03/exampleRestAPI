@@ -21,9 +21,54 @@ class HomeView extends StatelessWidget {
           return Scaffold(
             floatingActionButton: FloatingActionButton(
               backgroundColor: CupertinoColors.systemGreen,
-              onPressed: () => context
-                  .read<HomeCubit>()
-                  .addData(context: context, name: 'Artel', id: 20),
+              onPressed: () {
+                showDialog(
+                    context: context,
+                    builder: (_) => AlertDialog(
+                          title: const Text('ADD DATA'),
+                          actions: <Widget>[
+                            TextField(
+                              controller: context.read<HomeCubit>().name,
+                            ),
+                            TextField(
+                              controller: context.read<HomeCubit>().id,
+                            ),
+                            const SizedBox(
+                              height: 20,
+                            ),
+                            SizedBox(
+                              width: 550,
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  CupertinoButton.filled(
+                                      child: const Text(
+                                        'cancel',
+                                        style: TextStyle(
+                                            color: CupertinoColors.activeBlue),
+                                      ),
+                                      onPressed: () => Navigator.pop(context)),
+                                  CupertinoButton.filled(
+                                      padding:
+                                         const  EdgeInsets.symmetric(horizontal: 20),
+                                      child: const Text(
+                                        'add',
+                                        style: TextStyle(
+                                            color: CupertinoColors.systemGreen),
+                                      ),
+                                      onPressed: () => context
+                                          .read<HomeCubit>()
+                                          .addData(
+                                              context: context,
+                                              name: context.read<HomeCubit>().name.text,
+                                              id: int.parse(context.read<HomeCubit>().id.text))),
+                                ],
+                              ),
+                            )
+                          ],
+                        ));
+              },
               child: const Icon(Icons.add),
             ),
             appBar: AppBar(
@@ -52,7 +97,12 @@ class HomeView extends StatelessWidget {
                                   motion: const ScrollMotion(),
                                   children: [
                                     SlidableAction(
-                                      onPressed: (v) => context.read<HomeCubit>().delateData(state.data[index]['id'].toString(), context),
+                                      onPressed: (v) => context
+                                          .read<HomeCubit>()
+                                          .delateData(
+                                              state.data[index]['id']
+                                                  .toString(),
+                                              context),
                                       icon: Icons.delete,
                                       backgroundColor: Colors.red,
                                     )
