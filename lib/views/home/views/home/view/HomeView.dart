@@ -2,6 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:materialyou/services/strogeservice.dart';
+import 'package:materialyou/views/home/views/auth/view/auth_view.dart';
 import 'package:materialyou/views/home/views/home/cubit/home_cubit.dart';
 import 'package:materialyou/views/home/views/home/state/home_state.dart';
 
@@ -50,8 +52,8 @@ class HomeView extends StatelessWidget {
                                       ),
                                       onPressed: () => Navigator.pop(context)),
                                   CupertinoButton.filled(
-                                      padding:
-                                         const  EdgeInsets.symmetric(horizontal: 20),
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 20),
                                       child: const Text(
                                         'add',
                                         style: TextStyle(
@@ -61,8 +63,14 @@ class HomeView extends StatelessWidget {
                                           .read<HomeCubit>()
                                           .addData(
                                               context: context,
-                                              name: context.read<HomeCubit>().name.text,
-                                              id: int.parse(context.read<HomeCubit>().id.text))),
+                                              name: context
+                                                  .read<HomeCubit>()
+                                                  .name
+                                                  .text,
+                                              id: int.parse(context
+                                                  .read<HomeCubit>()
+                                                  .id
+                                                  .text))),
                                 ],
                               ),
                             )
@@ -72,6 +80,13 @@ class HomeView extends StatelessWidget {
               child: const Icon(Icons.add),
             ),
             appBar: AppBar(
+              actions: [
+                IconButton(
+                    onPressed: () {
+                      StorageService.instance.storage.remove('jwt').then((value) => Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (_) => const AuthView()), (route) => false) );
+                    },
+                    icon: const Icon(Icons.logout))
+              ],
               elevation: 0,
               backgroundColor: Colors.transparent,
               title: const Text(
