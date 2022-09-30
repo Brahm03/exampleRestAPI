@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:materialyou/services/strogeservice.dart';
+import 'package:materialyou/services/tokenservice.dart';
 import 'package:materialyou/views/home/cubit/mainCubit.dart';
 import 'package:materialyou/views/home/views/auth/view/auth_view.dart';
 import 'package:materialyou/views/home/views/home/view/HomeView.dart';
@@ -29,7 +30,7 @@ class MyApp extends StatelessWidget {
           colorScheme: const ColorScheme.light(
               primary: CupertinoColors.quaternarySystemFill,
               brightness: Brightness.light)),
-      home: StorageService.instance.storage.read('jwt') == null ? const AuthView() : BlocProvider(create: (_) => MainCubit(), child: const HomeView(),),
+      home: StorageService.instance.storage.read('jwt') == null && StorageService.instance.storage.read('isexpired') == true ? const AuthView() : BlocProvider(create: (_) => MainCubit(), child: const HomeView(),),
     );
   }
 }
